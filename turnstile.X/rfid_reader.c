@@ -33,6 +33,16 @@ static uint16_t cardNumberB = 0;
 static uint8_t rfidBDataReady = 0;
 static uint8_t indexB = 0;
 
+uint8_t rfidReset(void)
+{
+    indexA = 0;
+    dataBufferA = 0;
+    rfidADataReady = 0;
+    indexB = 0;
+    dataBufferB = 0;
+    rfidBDataReady = 0;
+}
+
 uint8_t rfidAIsDataReady(void)
 {
     if (rfidADataReady == 1)
@@ -58,11 +68,7 @@ void rfidTask()
     if (readerTimeoutFlag)
     {
         readerTimeoutFlag = 0;
-
-        indexA = 0;
-        dataBufferA = 0;
-        indexB = 0;
-        dataBufferB = 0;
+        rfidReset();
     }
 }
 

@@ -79,6 +79,7 @@ extern "C" {
     uint8_t rfidBIsDataReady(void);
 
     void rfidTask();
+    uint8_t rfidReset(void);
 
 #ifdef	__cplusplus
 }

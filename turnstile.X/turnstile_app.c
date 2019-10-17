@@ -239,6 +239,7 @@ void turnstileTask (void)
     case SM_RESTARTING:
         O5_SetLow();
         O6_SetLow();
+        rfidReset();
         TurnstileState = SM_WAITING_CARD;
         break;
     case SM_IDLE:
