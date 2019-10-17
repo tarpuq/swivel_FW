@@ -1,3 +1,8 @@
+
+# Created by https://www.gitignore.io/api/c,mplabx
+# Edit at https://www.gitignore.io/?templates=c,mplabx
+
+### C ###
 # Prerequisites
 *.d
 
@@ -50,3 +55,29 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+### MPLabX ###
+#Ignore List for Microchips MPLabX IDE
+#Form of netbeans with vendor specific changes
+#Taken from zeha on GIST https://gist.github.com/zeha/5999375
+
+*.pre
+*.p1
+*.lst
+*.sym
+*.sdb
+*.obj.dmp
+html/
+nbproject/private/
+nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+funclist
+nbproject/Makefile-*
+disassembly/
+
+# End of https://www.gitignore.io/api/c,mplabx

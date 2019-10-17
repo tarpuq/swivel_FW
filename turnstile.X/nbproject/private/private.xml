@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/main.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/HTTP2.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/turnstile_app.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/turnstile_app.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Configs/TCPIP%20TARPUQ.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/mcc_generated_files/spi1.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/MPFS2.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/SPIFlash.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/TCPIP%20Stack/TCPIP.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/TCPIP%20Stack/MPFS2.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/StackTsk.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/FTP.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/TCPIP%20Stack/FTP.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/TFTPc.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/AutoIP.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/ARP.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/Announce.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/sTimer.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/rfid_reader.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/PingDemo.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/Compiler.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/HTTPPrint.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/TCP.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/RTC.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/I2CSW.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/I2CSW.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/RTC.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/GenericTCPServer.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/TCPIP%20Stack/StackTsk.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/TCPIP%20Stack/TCP.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/Include/GenericTypeDefs.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/TCPIP%20Stack/UDP.c</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/sTimers.h</file>
+            <file>file:/D:/ownCloud/Workspace/MPLABProjects/turnstile.X/GenericTCPClient.c</file>
+        </group>
+    </open-files>
+</project-private>
