@@ -74,10 +74,10 @@
       <itemPath>PingDemo.c</itemPath>
       <itemPath>CustomHTTPApp.c</itemPath>
       <itemPath>rfid_reader.c</itemPath>
-      <itemPath>sTimer.c</itemPath>
       <itemPath>RTC.c</itemPath>
       <itemPath>I2CSW.c</itemPath>
       <itemPath>turnstile_app.c</itemPath>
+      <itemPath>sTimers.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
