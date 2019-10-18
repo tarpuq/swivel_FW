@@ -26,7 +26,7 @@ static enum _MessageType
 uint8_t validationMsg = 0;
 uint8_t peopleCounter = 0;
 
-void turnstileTask (void)
+void turnstileTask(void)
 {
     static uint8_t entryExit = 0;
     static DWORD Timer;
@@ -120,6 +120,10 @@ void turnstileTask (void)
                 switch (msgType)
                 {
                 case MSG_ENTRY_REQUIRED:
+                    BUZZER_SetHigh();
+                    __delay_ms(100);
+                    BUZZER_SetLow();
+
                     testRequired = dataBuffer[3];
                     testTimeout = dataBuffer[4];
 
@@ -137,6 +141,10 @@ void turnstileTask (void)
                     TurnstileState = SM_RESTARTING;
                     break;
                 case MSG_EXIT_REQUIRED:
+                    BUZZER_SetHigh();
+                    __delay_ms(100);
+                    BUZZER_SetLow();
+
                     testTimeout = AppConfig.ExitTimeout;
                     TurnstileState = SM_ACCESS_GRANTED;
                     break;
