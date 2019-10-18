@@ -20,8 +20,8 @@
  */
 
 /* 
- * File:   
- * Author: 
+ * File:   turnstile_app.h
+ * Author: gguzman
  * Comments:
  * Revision history: 
  */

@@ -1,3 +1,9 @@
+/* 
+ * File:   sTimer.c
+ * Author:      gguzman
+ * Comments:
+ * Revision history: 
+ */
 #include <stdint.h>
 
 #include "sTimers.h"

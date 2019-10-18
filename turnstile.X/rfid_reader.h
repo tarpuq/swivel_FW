@@ -20,8 +20,8 @@
  */
 
 /* 
- * File:   
- * Author: 
+ * File:   rfid_reader.h
+ * Author: gguzman
  * Comments:
  * Revision history: 
  */

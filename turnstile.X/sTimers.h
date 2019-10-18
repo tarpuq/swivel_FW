@@ -20,8 +20,8 @@
  */
 
 /* 
- * File:   
- * Author: 
+ * File:   sTimer.h
+ * Author:  gguzman
  * Comments:
  * Revision history: 
  */

@@ -1,3 +1,10 @@
+/* 
+ * File:   rfid_reader.c
+ * Author:      gguzman
+ * Comments:
+ * Revision history: 
+ */
+
 #include "mcc_generated_files/mcc.h"
 #include "rfid_reader.h"
 #include "sTimers.h"
