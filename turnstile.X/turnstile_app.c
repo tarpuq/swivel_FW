@@ -10,6 +10,7 @@
 #include "mcc_generated_files/mcc.h"
 
 #include "rfid_reader.h"
+#include "RTC.h"
 
 //  For AppConfig
 #include "TCPIP Stack/TCPIP.h"
@@ -17,7 +18,8 @@ extern APP_CONFIG AppConfig;
 
 static enum _MessageType
 {
-    MSG_ENTRY_REQUIRED = 0,
+    MSG_TIMESTAMP = 0,
+    MSG_ENTRY_REQUIRED,
     MSG_ENTRY_RESULT,
     MSG_EXIT_REQUIRED,
     MSG_EXIT_RESULT
@@ -25,6 +27,10 @@ static enum _MessageType
 
 uint8_t validationMsg = 0;
 uint8_t peopleCounter = 0;
+
+//  RTC
+RTC_Time localTime;
+uint8_t rtcUpdate = 1;
 
 void turnstileTask(void)
 {
@@ -43,7 +49,7 @@ void turnstileTask(void)
     static enum _TurnstileState
     {
         SM_INIT = 0,
-        SM_WAITING_CARD,
+        SM_WAITING_EVENTS,
         SM_PREPARE_FRAME,
         SM_WAIT_SERVER_RESPONSE,
         SM_CHECKING_ESD,
@@ -58,12 +64,13 @@ void turnstileTask(void)
     {
     case SM_INIT:
         BUZZER_SetLow();
-        TurnstileState = SM_WAITING_CARD;
+        RTC_Get(&localTime);
+        TurnstileState = SM_WAITING_EVENTS;
         break;
-    case SM_WAITING_CARD:
-        //  Check READERS
+    case SM_WAITING_EVENTS:
         validationMsg = 0;
 
+        //  Check READERS
         if (rfidAIsDataReady())
         {
             entryExit = 0; //Entry request
@@ -79,6 +86,15 @@ void turnstileTask(void)
             msgType = MSG_EXIT_REQUIRED;
             TurnstileState = SM_PREPARE_FRAME;
         }
+
+        if (rtcUpdate)
+        {
+            rtcUpdate = 0;
+            cardNumber = 0;
+            msgType = MSG_TIMESTAMP;
+            TurnstileState = SM_PREPARE_FRAME;
+        }
+
         break;
     case SM_PREPARE_FRAME:
         if (!entryExit)
@@ -90,13 +106,17 @@ void turnstileTask(void)
             dataBuffer[sendDataLen++] = DIRECTION_EXIT | AppConfig.DeviceID;
         }
         dataBuffer[sendDataLen++] = msgType;
-        dataBuffer[sendDataLen++] = (uint8_t) cardNumber;
-        dataBuffer[sendDataLen++] = (uint8_t) (cardNumber >> 8);
-        dataBuffer[sendDataLen++] = (uint8_t) (cardNumber >> 16);
 
-        if (validationMsg)
+        if (cardNumber)
         {
-            dataBuffer[sendDataLen++] = testStatus;
+            dataBuffer[sendDataLen++] = (uint8_t) cardNumber;
+            dataBuffer[sendDataLen++] = (uint8_t) (cardNumber >> 8);
+            dataBuffer[sendDataLen++] = (uint8_t) (cardNumber >> 16);
+
+            if (validationMsg)
+            {
+                dataBuffer[sendDataLen++] = testStatus;
+            }
         }
 
         setFrame(dataBuffer, sendDataLen);
@@ -113,21 +133,40 @@ void turnstileTask(void)
 
             devId = dataBuffer[0] & 0x7F;
             msgType = dataBuffer[1];
-            validCard = dataBuffer[2];
 
-            if ((devId == AppConfig.DeviceID) && (validCard == 1))
+            if (devId == AppConfig.DeviceID)
             {
                 switch (msgType)
                 {
+                case MSG_TIMESTAMP:
+                    localTime.day = dataBuffer[2];
+                    localTime.month = dataBuffer[3];
+                    localTime.year = dataBuffer[4];
+                    localTime.hours = dataBuffer[5];
+                    localTime.minutes = dataBuffer[6];
+                    localTime.seconds = dataBuffer[7];
+                    
+                    RTC_Set(&localTime);
+                    break;
                 case MSG_ENTRY_REQUIRED:
-                    BUZZER_SetHigh();
-                    __delay_ms(100);
-                    BUZZER_SetLow();
+                    validCard = dataBuffer[2];
 
-                    testRequired = dataBuffer[3];
-                    testTimeout = dataBuffer[4];
+                    if (validCard == 1)
+                    {
+                        BUZZER_SetHigh();
+                        __delay_ms(100);
+                        BUZZER_SetLow();
 
-                    TurnstileState = SM_CHECKING_ESD;
+                        testRequired = dataBuffer[3];
+                        testTimeout = dataBuffer[4];
+
+                        TurnstileState = SM_CHECKING_ESD;
+                    }
+                    else
+                    {
+                        //  Card not valid
+                        TurnstileState = SM_RESTARTING;
+                    }
                     break;
                 case MSG_ENTRY_RESULT:
                     if (testStatus)
@@ -141,12 +180,23 @@ void turnstileTask(void)
                     TurnstileState = SM_RESTARTING;
                     break;
                 case MSG_EXIT_REQUIRED:
-                    BUZZER_SetHigh();
-                    __delay_ms(100);
-                    BUZZER_SetLow();
+                    validCard = dataBuffer[2];
 
-                    testTimeout = AppConfig.ExitTimeout;
-                    TurnstileState = SM_ACCESS_GRANTED;
+                    if (validCard == 1)
+                    {
+                        BUZZER_SetHigh();
+                        __delay_ms(100);
+                        BUZZER_SetLow();
+
+                        testTimeout = AppConfig.ExitTimeout;
+                        TurnstileState = SM_ACCESS_GRANTED;
+
+                    }
+                    else
+                    {
+                        //  Card not valid
+                        TurnstileState = SM_RESTARTING;
+                    }
                     break;
                 case MSG_EXIT_RESULT:
                     if (testStatus)
@@ -167,11 +217,6 @@ void turnstileTask(void)
                 }
 
                 Timer = TickGet();
-            }
-            else
-            {
-                //  Card not valid
-                TurnstileState = SM_RESTARTING;
             }
         }
 
@@ -248,7 +293,7 @@ void turnstileTask(void)
         O5_SetLow();
         O6_SetLow();
         rfidReset();
-        TurnstileState = SM_WAITING_CARD;
+        TurnstileState = SM_WAITING_EVENTS;
         break;
     case SM_IDLE:
         break;
