@@ -142,6 +142,7 @@ typedef struct __attribute__((__packed__)) appConfigStruct {
     BYTE ESDCheckTimeout; // Default ESD check timeout
     BYTE EntryTimeout;   //  Default Entry Timeout (if server data is not available)
     BYTE ExitTimeout;   //  Default Exit Timeout
+    BYTE Direction; //  Default direction, 0 = A->B; 1 = B->A
 }
 APP_CONFIG;
 

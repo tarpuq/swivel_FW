@@ -68,10 +68,16 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <stdint.h>
+
+#define FRAME_DIRECTION_ENTRY    0x80
+#define FRANE_DIRECTION_EXIT   0x00
+
+#define REQUIRE_ENTRY   0x00
+#define REQUIRE_EXIT    0x01
     
-#define DIRECTION_ENTRY    0x80
-#define DIRECTION_EXIT   0x00
-    
+#define ENTRY_DIRECTION_A2B 0x00
+#define ENTRY_DIRECTION_B2A 0x01
+
     // TODO If C++ is being used, regular C code needs function names to have C 
     // linkage so the functions can be used by the c code. 
     extern void turnstileTask(void);
@@ -79,7 +85,7 @@ extern "C" {
     extern uint8_t isServerDataReady();
     extern uint8_t getFrame(uint8_t *buffer);
 
-    
+
 #ifdef	__cplusplus
 }
 #endif /* __cplusplus */

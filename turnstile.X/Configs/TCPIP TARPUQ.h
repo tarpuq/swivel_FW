@@ -192,8 +192,10 @@
 #define MY_DEFAULT_SERVER_PORT          (8624ul)
 
 #define MY_DEFAULT_ESD_CHECK_TIMEOUT    (10ul)
-#define MY_DEFAULT_ENTRY_TIMEOUT        (10ul)
-#define MY_DEFAULT_EXIT_TIMEOUT         (10ul)
+#define MY_DEFAULT_ENTRY_TIMEOUT        (5ul)
+#define MY_DEFAULT_EXIT_TIMEOUT         (5ul)
+
+#define MY_DEFAULT_DIRECTION            (1ul)   //  0 = A->B; 1 = B->A
 
 // =======================================================================
 //   PIC32MX7XX/6XX MAC Layer Options

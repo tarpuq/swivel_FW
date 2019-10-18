@@ -183,27 +183,27 @@
 #define SDAc_SetDigitalInput()    do { TRISCbits.TRISC7 = 1; } while(0)
 #define SDAc_SetDigitalOutput()   do { TRISCbits.TRISC7 = 0; } while(0)
 
-// get/set O5 aliases
-#define O5_TRIS                 TRISDbits.TRISD0
-#define O5_LAT                  LATDbits.LATD0
-#define O5_PORT                 PORTDbits.RD0
-#define O5_SetHigh()            do { LATDbits.LATD0 = 1; } while(0)
-#define O5_SetLow()             do { LATDbits.LATD0 = 0; } while(0)
-#define O5_Toggle()             do { LATDbits.LATD0 = ~LATDbits.LATD0; } while(0)
-#define O5_GetValue()           PORTDbits.RD0
-#define O5_SetDigitalInput()    do { TRISDbits.TRISD0 = 1; } while(0)
-#define O5_SetDigitalOutput()   do { TRISDbits.TRISD0 = 0; } while(0)
+// get/set ROTATE_A2B aliases
+#define ROTATE_A2B_TRIS                 TRISDbits.TRISD0
+#define ROTATE_A2B_LAT                  LATDbits.LATD0
+#define ROTATE_A2B_PORT                 PORTDbits.RD0
+#define ROTATE_A2B_SetHigh()            do { LATDbits.LATD0 = 1; } while(0)
+#define ROTATE_A2B_SetLow()             do { LATDbits.LATD0 = 0; } while(0)
+#define ROTATE_A2B_Toggle()             do { LATDbits.LATD0 = ~LATDbits.LATD0; } while(0)
+#define ROTATE_A2B_GetValue()           PORTDbits.RD0
+#define ROTATE_A2B_SetDigitalInput()    do { TRISDbits.TRISD0 = 1; } while(0)
+#define ROTATE_A2B_SetDigitalOutput()   do { TRISDbits.TRISD0 = 0; } while(0)
 
-// get/set O6 aliases
-#define O6_TRIS                 TRISDbits.TRISD1
-#define O6_LAT                  LATDbits.LATD1
-#define O6_PORT                 PORTDbits.RD1
-#define O6_SetHigh()            do { LATDbits.LATD1 = 1; } while(0)
-#define O6_SetLow()             do { LATDbits.LATD1 = 0; } while(0)
-#define O6_Toggle()             do { LATDbits.LATD1 = ~LATDbits.LATD1; } while(0)
-#define O6_GetValue()           PORTDbits.RD1
-#define O6_SetDigitalInput()    do { TRISDbits.TRISD1 = 1; } while(0)
-#define O6_SetDigitalOutput()   do { TRISDbits.TRISD1 = 0; } while(0)
+// get/set ROTATE_B2A aliases
+#define ROTATE_B2A_TRIS                 TRISDbits.TRISD1
+#define ROTATE_B2A_LAT                  LATDbits.LATD1
+#define ROTATE_B2A_PORT                 PORTDbits.RD1
+#define ROTATE_B2A_SetHigh()            do { LATDbits.LATD1 = 1; } while(0)
+#define ROTATE_B2A_SetLow()             do { LATDbits.LATD1 = 0; } while(0)
+#define ROTATE_B2A_Toggle()             do { LATDbits.LATD1 = ~LATDbits.LATD1; } while(0)
+#define ROTATE_B2A_GetValue()           PORTDbits.RD1
+#define ROTATE_B2A_SetDigitalInput()    do { TRISDbits.TRISD1 = 1; } while(0)
+#define ROTATE_B2A_SetDigitalOutput()   do { TRISDbits.TRISD1 = 0; } while(0)
 
 // get/set BUZZER aliases
 #define BUZZER_TRIS                 TRISDbits.TRISD2

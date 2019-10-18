@@ -8,6 +8,34 @@
         <itemPath>Configs/HWP TARPUQ.h</itemPath>
         <itemPath>Configs/TCPIP TARPUQ.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="Include" displayName="Include" projectFiles="true">
+        <logicalFolder name="TCPIP Stack" displayName="TCPIP Stack" projectFiles="true">
+          <itemPath>Include/TCPIP Stack/ARP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/Announce.h</itemPath>
+          <itemPath>Include/TCPIP Stack/DNS.h</itemPath>
+          <itemPath>Include/TCPIP Stack/Delay.h</itemPath>
+          <itemPath>Include/TCPIP Stack/ETH97J60.h</itemPath>
+          <itemPath>Include/TCPIP Stack/FTP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/HTTP2.h</itemPath>
+          <itemPath>Include/TCPIP Stack/Hashes.h</itemPath>
+          <itemPath>Include/TCPIP Stack/Helpers.h</itemPath>
+          <itemPath>Include/TCPIP Stack/ICMP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/IP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/MAC.h</itemPath>
+          <itemPath>Include/TCPIP Stack/MPFS2.h</itemPath>
+          <itemPath>Include/TCPIP Stack/SPIFlash.h</itemPath>
+          <itemPath>Include/TCPIP Stack/SPIRAM.h</itemPath>
+          <itemPath>Include/TCPIP Stack/StackTsk.h</itemPath>
+          <itemPath>Include/TCPIP Stack/TCP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/TCPIP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/TFTPc.h</itemPath>
+          <itemPath>Include/TCPIP Stack/Tick.h</itemPath>
+          <itemPath>Include/TCPIP Stack/UDP.h</itemPath>
+          <itemPath>Include/TCPIP Stack/XEEPROM.h</itemPath>
+        </logicalFolder>
+        <itemPath>Include/Compiler.h</itemPath>
+        <itemPath>Include/GenericTypeDefs.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">

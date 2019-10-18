@@ -73,17 +73,37 @@ void turnstileTask(void)
         //  Check READERS
         if (rfidAIsDataReady())
         {
-            entryExit = 0; //Entry request
             cardNumber = rfidAGetCardNumberInt();
-            msgType = MSG_ENTRY_REQUIRED;
+
+            if (AppConfig.Direction == ENTRY_DIRECTION_A2B)
+            {
+                entryExit = REQUIRE_ENTRY;
+                msgType = MSG_ENTRY_REQUIRED;
+            }
+            else if (AppConfig.Direction == ENTRY_DIRECTION_B2A)
+            {
+                entryExit = REQUIRE_EXIT;
+                msgType = MSG_EXIT_REQUIRED;
+            }
+
             TurnstileState = SM_PREPARE_FRAME;
         }
 
         if (rfidBIsDataReady())
         {
-            entryExit = 1; //Exit request
             cardNumber = rfidBGetCardNumberInt();
-            msgType = MSG_EXIT_REQUIRED;
+
+            if (AppConfig.Direction == ENTRY_DIRECTION_A2B)
+            {
+                entryExit = REQUIRE_EXIT;
+                msgType = MSG_EXIT_REQUIRED;
+            }
+            else if (AppConfig.Direction == ENTRY_DIRECTION_B2A)
+            {
+                entryExit = REQUIRE_ENTRY;
+                msgType = MSG_ENTRY_REQUIRED;
+            }
+
             TurnstileState = SM_PREPARE_FRAME;
         }
 
@@ -99,11 +119,11 @@ void turnstileTask(void)
     case SM_PREPARE_FRAME:
         if (!entryExit)
         {
-            dataBuffer[sendDataLen++] = DIRECTION_ENTRY | AppConfig.DeviceID;
+            dataBuffer[sendDataLen++] = FRAME_DIRECTION_ENTRY | AppConfig.DeviceID;
         }
         else
         {
-            dataBuffer[sendDataLen++] = DIRECTION_EXIT | AppConfig.DeviceID;
+            dataBuffer[sendDataLen++] = FRANE_DIRECTION_EXIT | AppConfig.DeviceID;
         }
         dataBuffer[sendDataLen++] = msgType;
 
@@ -145,7 +165,7 @@ void turnstileTask(void)
                     localTime.hours = dataBuffer[5];
                     localTime.minutes = dataBuffer[6];
                     localTime.seconds = dataBuffer[7];
-                    
+
                     RTC_Set(&localTime);
                     break;
                 case MSG_ENTRY_REQUIRED:
@@ -238,6 +258,14 @@ void turnstileTask(void)
         // Time out if too much time is spent in this state
         if (TickGet() - Timer > AppConfig.ESDCheckTimeout * TICK_SECOND)
         {
+            BUZZER_SetHigh();
+            __delay_ms(100);
+            BUZZER_SetLow();
+            __delay_ms(100);
+            BUZZER_SetHigh();
+            __delay_ms(100);
+            BUZZER_SetLow();
+
             TurnstileState = SM_ACCESS_DENIED;
         }
         break;
@@ -250,15 +278,29 @@ void turnstileTask(void)
     case SM_ACCESS_GRANTED:
         BUZZER_SetHigh();
 
-        if (!entryExit)
+        if (AppConfig.Direction == ENTRY_DIRECTION_A2B)
         {
-            O6_SetHigh();
-            __delay_ms(1000);
+            if (entryExit == REQUIRE_ENTRY)
+            {
+                ROTATE_A2B_SetHigh();
+            }
+            else if(entryExit == REQUIRE_EXIT)
+            {
+                ROTATE_B2A_SetHigh();
+                __delay_ms(250);
+            }
         }
-        else
+        else if (AppConfig.Direction == ENTRY_DIRECTION_B2A)
         {
-            O5_SetHigh();
-            __delay_ms(250);
+            if (entryExit == REQUIRE_ENTRY)
+            {
+                ROTATE_B2A_SetHigh();
+            }
+            else if(entryExit == REQUIRE_EXIT)
+            {
+                ROTATE_A2B_SetHigh();
+                __delay_ms(250);
+            }
         }
 
         BUZZER_SetLow();
@@ -286,12 +328,21 @@ void turnstileTask(void)
         if (TickGet() - Timer > testTimeout * TICK_SECOND)
         {
             testStatus = 0;
+
+            BUZZER_SetHigh();
+            __delay_ms(100);
+            BUZZER_SetLow();
+            __delay_ms(100);
+            BUZZER_SetHigh();
+            __delay_ms(100);
+            BUZZER_SetLow();
+
             TurnstileState = SM_PREPARE_FRAME;
         }
         break;
     case SM_RESTARTING:
-        O5_SetLow();
-        O6_SetLow();
+        ROTATE_A2B_SetLow();
+        ROTATE_B2A_SetLow();
         rfidReset();
         TurnstileState = SM_WAITING_EVENTS;
         break;

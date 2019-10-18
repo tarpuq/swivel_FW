@@ -173,6 +173,7 @@ static void InitAppConfig(void)
         AppConfig.ESDCheckTimeout = MY_DEFAULT_ESD_CHECK_TIMEOUT;
         AppConfig.EntryTimeout = MY_DEFAULT_ENTRY_TIMEOUT;
         AppConfig.ExitTimeout = MY_DEFAULT_EXIT_TIMEOUT;
+        AppConfig.Direction = MY_DEFAULT_DIRECTION;
 
 #if defined(WF_CS_TRIS)
         // Load the default SSID Name
