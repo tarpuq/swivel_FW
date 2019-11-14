@@ -271,16 +271,16 @@
 #define O3_SetDigitalInput()    do { TRISEbits.TRISE4 = 1; } while(0)
 #define O3_SetDigitalOutput()   do { TRISEbits.TRISE4 = 0; } while(0)
 
-// get/set O4 aliases
-#define O4_TRIS                 TRISEbits.TRISE5
-#define O4_LAT                  LATEbits.LATE5
-#define O4_PORT                 PORTEbits.RE5
-#define O4_SetHigh()            do { LATEbits.LATE5 = 1; } while(0)
-#define O4_SetLow()             do { LATEbits.LATE5 = 0; } while(0)
-#define O4_Toggle()             do { LATEbits.LATE5 = ~LATEbits.LATE5; } while(0)
-#define O4_GetValue()           PORTEbits.RE5
-#define O4_SetDigitalInput()    do { TRISEbits.TRISE5 = 1; } while(0)
-#define O4_SetDigitalOutput()   do { TRISEbits.TRISE5 = 0; } while(0)
+// get/set AUX_OUT aliases
+#define AUX_OUT_TRIS                 TRISEbits.TRISE5
+#define AUX_OUT_LAT                  LATEbits.LATE5
+#define AUX_OUT_PORT                 PORTEbits.RE5
+#define AUX_OUT_SetHigh()            do { LATEbits.LATE5 = 1; } while(0)
+#define AUX_OUT_SetLow()             do { LATEbits.LATE5 = 0; } while(0)
+#define AUX_OUT_Toggle()             do { LATEbits.LATE5 = ~LATEbits.LATE5; } while(0)
+#define AUX_OUT_GetValue()           PORTEbits.RE5
+#define AUX_OUT_SetDigitalInput()    do { TRISEbits.TRISE5 = 1; } while(0)
+#define AUX_OUT_SetDigitalOutput()   do { TRISEbits.TRISE5 = 0; } while(0)
 
 // get/set ALARM aliases
 #define ALARM_TRIS                 TRISGbits.TRISG4

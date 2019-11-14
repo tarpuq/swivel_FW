@@ -9,12 +9,26 @@
 
 #include "mcc_generated_files/mcc.h"
 
+#include "inputs.h"
+
 #include "rfid_reader.h"
 #include "RTC.h"
+
+#include "beep.h"
 
 //  For AppConfig
 #include "TCPIP Stack/TCPIP.h"
 extern APP_CONFIG AppConfig;
+
+#define TEST_TALONERA 0x01
+#define TEST_MANILLA 0x02
+
+#define BEEP_VALID()            beep(1, 100, 200, 0)
+#define BEEP_INVALID()          beep(2, 100, 200, 25)
+#define BEEP_NETWORK_ERROR()    beep(3, 500, 0, 500)
+#define BEEP_GRANTED()          beep(1, 500, 0, 0);
+
+#define BEEP_INIT()             do{beep(2, 100, 0, 100); beep(1, 500, 0, 0);}while(0);
 
 static enum _MessageType
 {
@@ -32,6 +46,32 @@ uint8_t peopleCounter = 0;
 RTC_Time localTime;
 uint8_t rtcUpdate = 1;
 
+//void beep(uint8_t times, uint16_t width, uint16_t delay)
+//{
+//    uint16_t i, j;
+//    while (delay)
+//    {
+//        __delay_ms(1);
+//        delay--;
+//    }
+//
+//    while (times)
+//    {
+//        BUZZER_SetHigh();
+//        for (j = 0; j < width; j++)
+//            __delay_ms(1);
+//        BUZZER_SetLow();
+//
+//        times--;
+//
+//        if (times)
+//        {
+//            for (j = 0; j < width; j++)
+//                __delay_ms(1);
+//        }
+//    }
+//}
+
 void turnstileTask(void)
 {
     static uint8_t entryExit = 0;
@@ -39,7 +79,8 @@ void turnstileTask(void)
     uint8_t dataBuffer[10];
     static uint24_t cardNumber;
     static uint8_t testRequired = 0;
-    static uint8_t testTimeout = 0;
+    static uint8_t esdTimeout = 0;
+    static uint8_t passTimeout = 0;
     static uint8_t testStatus = 0;
     uint8_t sendDataLen = 0;
     uint8_t devId;
@@ -63,7 +104,8 @@ void turnstileTask(void)
     switch (TurnstileState)
     {
     case SM_INIT:
-        BUZZER_SetLow();
+        beepInit();
+        BEEP_INIT();
         RTC_Get(&localTime);
         TurnstileState = SM_WAITING_EVENTS;
         break;
@@ -167,24 +209,26 @@ void turnstileTask(void)
                     localTime.seconds = dataBuffer[7];
 
                     RTC_Set(&localTime);
+
+                    TurnstileState = SM_RESTARTING;
                     break;
                 case MSG_ENTRY_REQUIRED:
                     validCard = dataBuffer[2];
 
                     if (validCard == 1)
                     {
-                        BUZZER_SetHigh();
-                        __delay_ms(100);
-                        BUZZER_SetLow();
+                        BEEP_VALID();
 
                         testRequired = dataBuffer[3];
-                        testTimeout = dataBuffer[4];
+                        esdTimeout = dataBuffer[4];
+                        passTimeout = dataBuffer[5];
 
                         TurnstileState = SM_CHECKING_ESD;
                     }
                     else
                     {
                         //  Card not valid
+                        BEEP_INVALID();
                         TurnstileState = SM_RESTARTING;
                     }
                     break;
@@ -204,17 +248,16 @@ void turnstileTask(void)
 
                     if (validCard == 1)
                     {
-                        BUZZER_SetHigh();
-                        __delay_ms(100);
-                        BUZZER_SetLow();
+                        BEEP_VALID();
 
-                        testTimeout = AppConfig.ExitTimeout;
+                        passTimeout = AppConfig.ExitTimeout;
+
                         TurnstileState = SM_ACCESS_GRANTED;
-
                     }
                     else
                     {
                         //  Card not valid
+                        BEEP_INVALID();
                         TurnstileState = SM_RESTARTING;
                     }
                     break;
@@ -243,29 +286,32 @@ void turnstileTask(void)
         // Time out if too much time is spent in this state
         if (TickGet() - Timer > 5 * TICK_SECOND)
         {
+            BEEP_NETWORK_ERROR();
             TurnstileState = SM_RESTARTING;
         }
         break;
     case SM_CHECKING_ESD:
-        if (MSG_GetValue() == 0)
+
+        if (!(testRequired & TEST_MANILLA))
+        {
+            AUX_OUT_SetHigh();
+        }
+
+        if (inputIsRise(&msg))
         {
             testStatus = 1;
             TurnstileState = SM_ACCESS_GRANTED;
+
+            AUX_OUT_SetLow();
 
             Timer = TickGet();
         }
 
         // Time out if too much time is spent in this state
-        if (TickGet() - Timer > AppConfig.ESDCheckTimeout * TICK_SECOND)
+        if (TickGet() - Timer > esdTimeout * TICK_SECOND)
         {
-            BUZZER_SetHigh();
-            __delay_ms(100);
-            BUZZER_SetLow();
-            __delay_ms(100);
-            BUZZER_SetHigh();
-            __delay_ms(100);
-            BUZZER_SetLow();
-
+            BEEP_INVALID();
+            AUX_OUT_SetLow();
             TurnstileState = SM_ACCESS_DENIED;
         }
         break;
@@ -276,18 +322,15 @@ void turnstileTask(void)
         TurnstileState = SM_PREPARE_FRAME;
         break;
     case SM_ACCESS_GRANTED:
-        BUZZER_SetHigh();
-
         if (AppConfig.Direction == ENTRY_DIRECTION_A2B)
         {
             if (entryExit == REQUIRE_ENTRY)
             {
                 ROTATE_A2B_SetHigh();
             }
-            else if(entryExit == REQUIRE_EXIT)
+            else if (entryExit == REQUIRE_EXIT)
             {
                 ROTATE_B2A_SetHigh();
-                __delay_ms(250);
             }
         }
         else if (AppConfig.Direction == ENTRY_DIRECTION_B2A)
@@ -296,14 +339,12 @@ void turnstileTask(void)
             {
                 ROTATE_B2A_SetHigh();
             }
-            else if(entryExit == REQUIRE_EXIT)
+            else if (entryExit == REQUIRE_EXIT)
             {
                 ROTATE_A2B_SetHigh();
-                __delay_ms(250);
             }
         }
-
-        BUZZER_SetLow();
+        BEEP_GRANTED();
         TurnstileState = SM_WAITING_PASS;
         break;
     case SM_WAITING_PASS:
@@ -318,25 +359,22 @@ void turnstileTask(void)
             msgType = MSG_EXIT_RESULT;
         }
 
-        if (ALARM_GetValue() == 0)
+        if (inputIsRise(&alarm))
         {
             testStatus = 1;
+            ROTATE_A2B_SetLow();
+            ROTATE_B2A_SetLow();
             TurnstileState = SM_PREPARE_FRAME;
         }
 
+        //  Clear ESD test state
+        inputIsRise(&msg);
+
         // Time out if too much time is spent in this state
-        if (TickGet() - Timer > testTimeout * TICK_SECOND)
+        if (TickGet() - Timer > passTimeout * TICK_SECOND)
         {
             testStatus = 0;
-
-            BUZZER_SetHigh();
-            __delay_ms(100);
-            BUZZER_SetLow();
-            __delay_ms(100);
-            BUZZER_SetHigh();
-            __delay_ms(100);
-            BUZZER_SetLow();
-
+            BEEP_INVALID();
             TurnstileState = SM_PREPARE_FRAME;
         }
         break;

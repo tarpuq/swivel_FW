@@ -195,7 +195,7 @@
 #define MY_DEFAULT_ENTRY_TIMEOUT        (5ul)
 #define MY_DEFAULT_EXIT_TIMEOUT         (5ul)
 
-#define MY_DEFAULT_DIRECTION            (1ul)   //  0 = A->B; 1 = B->A
+#define MY_DEFAULT_DIRECTION            (0ul)   //  0 = A->B; 1 = B->A
 
 // =======================================================================
 //   PIC32MX7XX/6XX MAC Layer Options

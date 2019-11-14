@@ -20,20 +20,19 @@
  */
 
 /* 
- * File:   sTimer.h
- * Author:  gguzman
+ * File:   
+ * Author: 
  * Comments:
  * Revision history: 
  */
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_STIMERS_H
-#define	XC_STIMERS_H
+#ifndef BEEP_H
+#define	BEEP_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 #include <stdint.h>
-#include <stdbool.h>
 
 // TODO Insert appropriate #include <>
 
@@ -69,24 +68,18 @@
 extern "C" {
 #endif /* __cplusplus */
 
-    typedef struct {
-        uint32_t timeout;
-        bool running;
-        bool done;
-    } timer_t;
-
-    timer_t readerTimer;
-
     // TODO If C++ is being used, regular C code needs function names to have C 
     // linkage so the functions can be used by the c code. 
-    bool timerIsDone(timer_t *timer);
-    void processTimer(timer_t *timer);
-    void softwareTimersHandler(void);
+    void beep(uint8_t times, uint16_t width, uint16_t delay, uint16_t interlude);
 
+    void beepInit(void);
 
+    void beepProcess(void);
+
+    
 #ifdef	__cplusplus
 }
 #endif /* __cplusplus */
 
-#endif	/* XC_STIMERS_H */
+#endif	/* BEEP_H */
 

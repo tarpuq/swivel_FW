@@ -6,8 +6,7 @@
  */
 
 #include "I2CSW.h"
-#include "../mcc_generated_files/device_config.h"
-#include "../mcc_generated_files/pin_manager.h"
+#include "mcc_generated_files/mcc.h"
 
 //PBClock
 

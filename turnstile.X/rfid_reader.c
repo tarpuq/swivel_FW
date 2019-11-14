@@ -8,6 +8,7 @@
 #include "mcc_generated_files/mcc.h"
 #include "rfid_reader.h"
 #include "sTimers.h"
+#include "GenericTypeDefs.h"
 
 typedef union
 {
@@ -72,9 +73,9 @@ uint8_t rfidBIsDataReady(void)
 
 void rfidTask()
 {
-    if (readerTimeoutFlag)
+    if (readerTimer.done)
     {
-        readerTimeoutFlag = 0;
+        readerTimer.done = FALSE;
         rfidReset();
     }
 }
@@ -85,7 +86,7 @@ void rfidAProcess(void)
     dataBufferA |= (uint32_t) (data_bit & 0x01) << (25 - indexA);
     indexA++;
 
-    readerTimeout = 10;
+    readerTimer.timeout = 10;
 
     if (indexA >= 26)
     {
@@ -96,7 +97,7 @@ void rfidAProcess(void)
 
         rfidADataReady = 1;
 
-        readerTimeout = 0;
+        readerTimer.timeout = 0;
 
         dataBufferA = 0;
         indexA = 0;
@@ -109,7 +110,7 @@ void rfidBProcess(void)
     dataBufferB |= (uint32_t) (data_bit & 0x01) << (25 - indexB);
     indexB++;
 
-    readerTimeout = 10;
+    readerTimer.timeout = 10;
 
     if (indexB >= 26)
     {
@@ -120,7 +121,7 @@ void rfidBProcess(void)
 
         rfidBDataReady = 1;
 
-        readerTimeout = 0;
+        readerTimer.timeout = 0;
 
         dataBufferB = 0;
         indexB = 0;

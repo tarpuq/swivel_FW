@@ -7,16 +7,47 @@
 #include <stdint.h>
 
 #include "sTimers.h"
+#include "inputs.h"
+#include "beep.h"
+#include "GenericTypeDefs.h"
 
-uint8_t readerTimeout = 0;
-uint8_t readerTimeoutFlag = 0;
+timer_t readerTimer = {
+    0,
+    FALSE,
+    FALSE
+};
+
+bool timerIsDone(timer_t *timer){
+    if(timer->done){
+        timer->done = false;
+        return true;
+    }
+    return false;
+}
+
+void processTimer(timer_t *timer)
+{
+    if (timer->timeout)
+    {
+        timer->timeout--;
+
+        timer->running = TRUE;
+
+        if (timer->timeout == 0)
+        {
+            timer->done = TRUE;
+            timer->running = FALSE;
+        }
+    }
+}
 
 void softwareTimersHandler(void)
 {
-    if(readerTimeout){
-        readerTimeout--;
-        
-        if(readerTimeout == 0)
-            readerTimeoutFlag = 1;
-    }
+    processTimer(&readerTimer);
+
+    //  Inputs
+    inputsProcess();
+
+    //  Beep
+    beepProcess();
 }

@@ -35,6 +35,7 @@
         </logicalFolder>
         <itemPath>Include/Compiler.h</itemPath>
         <itemPath>Include/GenericTypeDefs.h</itemPath>
+        <itemPath>inputs.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -55,6 +56,7 @@
       <itemPath>I2CSW.h</itemPath>
       <itemPath>RTC.h</itemPath>
       <itemPath>turnstile_app.h</itemPath>
+      <itemPath>beep.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -106,6 +108,8 @@
       <itemPath>I2CSW.c</itemPath>
       <itemPath>turnstile_app.c</itemPath>
       <itemPath>sTimers.c</itemPath>
+      <itemPath>inputs.c</itemPath>
+      <itemPath>beep.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -279,8 +283,6 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-1fff7"/>
         <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="D:/ownCloud/Workspace/MPLABProjects/turnstile.X/debug/default/turnstile_ptg"/>
         <property key="programmerToGoImageName" value="turnstile_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
@@ -301,7 +303,7 @@
         <property key="programoptions.programuserotp" value="false"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="ptgSendImage" value="true"/>
-        <property key="voltagevalue" value="3.25"/>
+        <property key="voltagevalue" value="3.3"/>
       </pk4hybrid>
     </conf>
   </confs>

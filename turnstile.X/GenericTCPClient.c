@@ -165,12 +165,12 @@ void GenericTCPClient(void)
         if (!TCPIsConnected(MySocket))
         {
             // Time out if too much time is spent in this state
-            if (TickGet() - Timer > 5 * TICK_SECOND)
+            if (TickGet() - Timer > 3 * TICK_SECOND)
             {
                 // Close the socket so it can be used by other modules
                 TCPDisconnect(MySocket);
                 MySocket = INVALID_SOCKET;
-                GenericTCPExampleState--;
+                GenericTCPExampleState = SM_WAIT_REQUEST;
             }
             break;
         }
